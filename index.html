@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给尹昭蓉的专属网站</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 登录界面 -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-form">
+            <div class="login-header">
+                <i class="fas fa-heart"></i>
+                <h2>专属登录</h2>
+                <p>欢迎来到尹昭蓉的专属空间</p>
+            </div>
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="请输入账号" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="请输入密码" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <span>登录</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="login-hint">
+                <p>提示：账号和密码有特殊含义</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div id="mainContent" class="main-content hidden">
+        <!-- 动态背景效果 -->
+        <div class="floating-hearts"></div>
+        
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-title">
+                    <i class="fas fa-heart"></i>
+                    尹昭蓉的专属空间
+                </h1>
+                <div class="nav-menu">
+                    <a href="#" class="nav-link active" data-page="home">
+                        <i class="fas fa-home"></i>首页
+                    </a>
+                    <a href="#" class="nav-link" data-page="messages">
+                        <i class="fas fa-heart"></i>情话语录
+                    </a>
+                    <a href="#" class="nav-link" data-page="timeline">
+                        <i class="fas fa-clock"></i>时光印记
+                    </a>
+                    <a href="camera.html" class="nav-link">
+                        <i class="fas fa-hand-pointer"></i>手势交互
+                    </a>
+                    <a href="#" class="nav-link" data-page="about">
+                        <i class="fas fa-user"></i>关于我们
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <button id="logoutBtn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        退出
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 首页内容 -->
+        <div id="home" class="page-content active">
+            <!-- 欢迎区域 -->
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h2 class="welcome-title">欢迎回家，尹昭蓉！</h2>
+                    <p class="welcome-subtitle">这个空间只为你而存在 ❤️</p>
+                    <div class="love-message">
+                        <p>每一张照片都记录着我们的美好时光</p>
+                    </div>
+                    <div class="welcome-animation">
+                        <div class="pulse-heart">❤️</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 照片展示区域 -->
+            <section class="gallery-section">
+                <div class="gallery-container">
+                    <h3 class="gallery-title">
+                        <i class="fas fa-images"></i>
+                        我们的美好回忆
+                    </h3>
+                    <div id="photoGallery" class="photo-gallery">
+                        <!-- 照片将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 情话语录页面 -->
+        <div id="messages" class="page-content">
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h2>给尹昭蓉的情话</h2>
+                    <p>每一句都是真心话 ❤️</p>
+                </div>
+            </section>
+            
+            <div class="gallery-container">
+                <div class="love-messages-container">
+                    <div class="love-card">
+                        <h4>初见心动</h4>
+                        <p>第一次见到你，我就知道这辈子非你不可。你的笑容像春天的阳光，温暖了我的心房。</p>
+                    </div>
+                    <div class="love-card">
+                        <h4>日常思念</h4>
+                        <p>每天醒来第一个想到的是你，睡前最后一个想到的也是你。你是我生活中的全部意义。</p>
+                    </div>
+                    <div class="love-card">
+                        <h4>未来憧憬</h4>
+                        <p>我想和你一起看遍世间风景，一起经历人生的酸甜苦辣，一起慢慢变老。</p>
+                    </div>
+                    <div class="love-card">
+                        <h4>真心告白</h4>
+                        <p>我爱你，不是因为你是谁，而是因为和你在一起时，我才是最真实的自己。</p>
+                    </div>
+                    <div class="love-card">
+                        <h4>永恒承诺</h4>
+                        <p>无论未来发生什么，我都会一直陪在你身边，守护你，爱护你，直到永远。</p>
+                    </div>
+                    <div class="love-card">
+                        <h4>幸福定义</h4>
+                        <p>幸福就是和你在一起的每一刻，哪怕只是静静地坐着，也觉得无比美好。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 时光印记页面 -->
+        <div id="timeline" class="page-content">
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h2>我们的时光印记</h2>
+                    <p>记录每一个重要时刻 ❤️</p>
+                </div>
+            </section>
+            
+            <div class="gallery-container">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">初遇时刻</div>
+                            <p>第一次见到你，心跳加速的那一刻，我就知道这辈子注定要和你在一起。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">第一次约会</div>
+                            <p>那个美好的下午，我们聊了很多，发现彼此有说不完的话题。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">重要节日</div>
+                            <p>每个节日都因为有你而变得特别，每个纪念日都值得珍藏。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">未来展望</div>
+                            <p>期待和你一起创造更多美好的回忆，一起书写属于我们的故事。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关于我们页面 -->
+        <div id="about" class="page-content">
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h2>关于我们</h2>
+                    <p>这是属于我们的专属空间 ❤️</p>
+                </div>
+            </section>
+            
+            <div class="gallery-container">
+                <div class="about-content">
+                    <h3>致最爱的尹昭蓉</h3>
+                    <p>这个网站是我为你精心准备的礼物，每一行代码都包含着我对你的爱意。</p>
+                    <p>在这里，你可以看到我们的美好回忆，读到我对你的真心话，感受我们之间的点点滴滴。</p>
+                    <p>希望这个小小的空间能成为我们爱情的见证，记录下每一个珍贵的瞬间。</p>
+                    <p>无论未来如何，我都会一直爱你，珍惜你，守护你。</p>
+                    <p style="color: #e91e63; font-weight: bold; margin-top: 20px;">永远爱你的那个人 ❤️</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <p>Made with ❤️ for 尹昭蓉</p>
+        </footer>
+    </div>
+
+    <!-- 照片模态框 -->
+    <div id="photoModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modalImage" src="" alt="">
+            <div class="modal-nav">
+                <button id="prevBtn" class="nav-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextBtn" class="nav-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
