@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱心树手势交互 - 尹昭蓉的专属空间</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .header h1 {
+            color: #e91e63;
+            font-size: 1.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .camera-section {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+        }
+
+        .heart-tree {
+            position: relative;
+            width: 500px;
+            height: 600px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center center;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+        }
+
+        .tree-trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 250px;
+            background: linear-gradient(45deg, #8B4513, #A0522D, #8B4513);
+            border-radius: 25px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+            animation: trunkGlow 3s ease-in-out infinite;
+        }
+
+        .tree-crown {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at 30% 30%, #4CAF50, #2E7D32, #1B5E20);
+            border-radius: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
+            animation: crownPulse 4s ease-in-out infinite;
+        }
+
+        .heart-leaf {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            --heart-color: #e91e63;
+        }
+
+        /* 使用CSS创建爱心形状 */
+        .heart-leaf::before {
+            content: '❤️';
+            font-size: 24px;
+            color: var(--heart-color);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px currentColor;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 10px currentColor);
+            animation: heartGlow 2s ease-in-out infinite;
+        }
+
+        .heart-leaf:hover::before {
+            color: #ff4081;
+            text-shadow: 0 0 20px rgba(255, 64, 129, 0.8);
+            transform: scale(1.3);
+        }
+
+        /* 备用爱心形状（使用CSS绘制） */
+        .heart-leaf.alt::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: var(--heart-color);
+            transform: rotate(45deg);
+            position: relative;
+        }
+
+        .heart-leaf.alt::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--heart-color);
+            border-radius: 50%;
+            top: -10px;
+            left: 0;
+        }
+
+        .heart-leaf.alt::before::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--heart-color);
+            border-radius: 50%;
+            top: 0;
+            left: -10px;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 30px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #ad1457;
+            transform: translateY(-2px);
+        }
+
+        .gesture-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .gesture-info h3 {
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+
+        .gesture-item {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(-20px) rotate(0deg); }
+            75% { transform: translateY(-15px) rotate(-5deg); }
+        }
+
+        @keyframes trunkGlow {
+            0%, 100% { box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.5); }
+            50% { box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.8); }
+        }
+
+        @keyframes crownPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* 新增动画效果 */
+        @keyframes heartGlow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 10px currentColor) brightness(1); 
+                transform: scale(1); 
+            }
+            50% { 
+                filter: drop-shadow(0 0 20px currentColor) brightness(1.3); 
+                transform: scale(1.1); 
+            }
+        }
+
+        @keyframes heartPulse {
+            0% { 
+                width: 0; 
+                height: 0; 
+                opacity: 0.8; 
+            }
+            50% { 
+                width: 60px; 
+                height: 60px; 
+                opacity: 0.3; 
+            }
+            100% { 
+                width: 100px; 
+                height: 100px; 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes heartPulseHover {
+            0% { 
+                width: 0; 
+                height: 0; 
+                opacity: 0.8; 
+            }
+            100% { 
+                width: 80px; 
+                height: 80px; 
+                opacity: 0; 
+            }
+        }
+
+        /* 树冠发光效果 */
+        .tree-crown::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(76, 175, 80, 0.3), transparent 70%);
+            border-radius: 50%;
+            animation: crownGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes crownGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .heart-leaf:nth-child(2n) {
+            animation-delay: 0.3s;
+        }
+
+        .heart-leaf:nth-child(3n) {
+            animation-delay: 0.6s;
+        }
+
+        .heart-leaf:nth-child(4n) {
+            animation-delay: 0.9s;
+        }
+
+        .heart-leaf:nth-child(5n) {
+            animation-delay: 1.2s;
+        }
+
+        /* 增强的动态效果 */
+        .heart-leaf::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, currentColor 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: heartPulse 3s ease-out infinite;
+        }
+
+        .heart-leaf:hover::after {
+            animation: heartPulseHover 0.6s ease-out;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 返回首页</a>
+        
+        <div class="header">
+            <h1>❤️ 爱心树手势交互 ❤️</h1>
+            <p>使用摄像头手势控制爱心树 - 双指缩放，单击爱心查看照片</p>
+        </div>
+
+        <div class="camera-section">
+            <video id="video" autoplay playsinline></video>
+            
+            <div class="heart-tree" id="heartTree">
+                <div class="tree-trunk"></div>
+                <div class="tree-crown" id="treeCrown">
+                    <!-- 爱心叶子将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <div class="gesture-info">
+                <h3>手势操作指南</h3>
+                <div class="gesture-item">🤏 双指分开 - 放大爱心树</div>
+                <div class="gesture-item">🤏 双指捏合 - 缩小爱心树</div>
+                <div class="gesture-item">👉 单指点击 - 查看照片</div>
+                <div class="gesture-item">👋 挥手 - 切换照片</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="startCamera">开启摄像头</button>
+            <button class="control-btn" id="stopCamera">关闭摄像头</button>
+            <button class="control-btn" id="resetTree">重置爱心树</button>
+        </div>
+
+        <div id="photoModal" class="photo-modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <img id="modalImage" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    <script src="camera.js"></script>
+</body>
+</html>
